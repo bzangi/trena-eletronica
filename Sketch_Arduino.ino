@@ -1,7 +1,6 @@
 
 // INCLUSÃO DE BIBLIOTECAS
 #include <NewPing.h>
-#include <SoftwareSerial.h>
 #include <PubSubClient.h>
 #include <WiFiEsp.h>
 
@@ -21,10 +20,14 @@ const char* password = "opc0998801";
 const char* mqtt_server = "broker.hivemq.com";
 const char* mqtt_topic = "arduino/distance";
 
+
 // ESP8266
-#define RX 10
-#define TX 11
-SoftwareSerial Serial1(RX, TX);
+#define RX 6
+#define TX 7
+#ifndef HAVE_HWSERIAL1
+  #include <SoftwareSerial.h>
+  SoftwareSerial espWifi(RX, TX);
+#endif
 
 // MQTT Client
 WiFiEspClient espClient;
@@ -37,17 +40,21 @@ float distanciaAnterior = -1;
 
 void setup() {
   Serial.begin(9600);            // Serial monitor
+  // Define pin modes for TX and RX
+  pinMode(RX, INPUT);
+  pinMode(TX, OUTPUT);
+  // espWifi.begin(9600);         // ESP8266 communication
 
-  // // Define pin modes for TX and RX
-  // pinMode(RX, INPUT);
-  // pinMode(TX, OUTPUT);
-  // Serial1.begin(9600);         // ESP8266 communication
+  // Connect to Wi-Fi
+  // WiFi.init(&espWifi);
+  // while (WiFi.status() == WL_NO_SHIELD) {
+  //   Serial.println("WiFi shield not present");
+  //   delay(1000);
+  // }
 
-  // // Connect to Wi-Fi
-  // WiFi.init(&Serial1);
   // connectWiFi();
 
-  // // Configure MQTT
+  // Configure MQTT
   // client.setServer(mqtt_server, 1883);
   // connectMQTT();
 
@@ -89,10 +96,11 @@ void loop() {
 void connectWiFi() {
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
     Serial.print(".");
-    delay(1000);
   }
   Serial.println("\nWi-Fi connected");
+  Serial.println(WiFi.localIP());
 }
 
 // Connect to MQTT broker
@@ -117,4 +125,3 @@ void publishDistance(float distance) {
   client.publish(mqtt_topic, message);
   Serial.println("Distance published to MQTT");
 }
-
