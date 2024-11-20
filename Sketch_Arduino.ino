@@ -24,7 +24,7 @@ void setup() {
 }
 
 void loop() {
-  // Read distance at intervals
+  // Lê a distância em intervalos definidos pelo DELAY_LEITURA
   if ( millis() - ultimaLeitura > DELAY_LEITURA) {
     float distancia = sonar.ping_cm();
 
