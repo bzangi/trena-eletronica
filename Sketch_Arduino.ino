@@ -1,17 +1,17 @@
-// INCLUSÃO DE BIBLIOTECAS
+// Inclusão de bibliotecas
 #include <NewPing.h>
 
-// Pin definitions
+// Definição dos pinos
 #define pinTrig 3
 #define pinEcho 2
 
 #define pinLed 5
 
-// Distance sensor definitions
+// Definições do sensor de distância
 #define MAX_DISTANCE 4000
 #define DELAY_LEITURA 1500
 
-// Variables
+// Variáveis
 NewPing sonar(pinTrig, pinEcho, MAX_DISTANCE);
 unsigned long ultimaLeitura;
 float distanciaAnterior = -1;
