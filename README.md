@@ -29,6 +29,7 @@ Este projeto consiste em uma trena eletrônica baseada no Arduino, utilizando um
 ## Configuração do Projeto
 
 ### 1. Montagem do Hardware
+[Diagrama](https://prnt.sc/vTZMrGT4dspv)
 1. Conecte o **sensor ultrassônico HC-SR04**:
    - Trig no pino **3** do Arduino.
    - Echo no pino **2** do Arduino.
